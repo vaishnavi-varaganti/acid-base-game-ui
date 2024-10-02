@@ -1,0 +1,51 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: 0 2px 2px rgba(255, 255, 255, 0.3); 
+    z-index: 1000; 
+    position: fixed;
+    top: 0;
+    width: 100%; 
+}
+
+.header-middle {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.header-middle h2 {
+    margin: 0;
+    font-size: 50px;
+    font-family: 'Sixtyfour Convergence';
+}
+
+.header-right {
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.header-link {
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    margin-right: 20px;
+}
+
+.header-logo{
+    height: 100px;
+    width: 100px;
+}
+
+.bi-box-arrow-right {
+    font-size: 30px;
+    font-weight: bolder;
+    color: black; 
+    transition: color 0.3s ease;
+}
+
+.bi-box-arrow-right:hover {
+    color: red; 
+}
