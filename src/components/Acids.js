@@ -11,9 +11,10 @@ const Acids = () => {
   const [acidToEdit, setAcidToEdit] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedForDelete, setSelectedForDelete] = useState(null);
-  const [showAddModal, setShowAddModal] = useState(false); // For adding acid
-  const [newAcid, setNewAcid] = useState(''); // To track the new acid name
-  const [errorMessage, setErrorMessage] = useState(''); // To show error message
+  const [showAddModal, setShowAddModal] = useState(false); 
+  const [newAcid, setNewAcid] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   useEffect(() => {
     axios.get('https://retoolapi.dev/tnFVDY/acidsbases')
@@ -68,9 +69,7 @@ const Acids = () => {
       });
   };
 
-  // Add new acid
   const handleAddAcid = () => {
-    // Check if the acid already exists
     const acidExists = acids.some(acid => acid.Compound.toLowerCase() === newAcid.toLowerCase());
 
     if (acidExists) {
@@ -85,20 +84,32 @@ const Acids = () => {
 
     axios.post('https://api-generator.retool.com/tnFVDY/acidsbases', newAcidData)
       .then((response) => {
-        setAcids([...acids, response.data]); // Add the new acid to the list
-        setShowAddModal(false); // Close the modal
-        setNewAcid(''); // Reset input
-        setErrorMessage(''); // Clear error
+        setAcids([...acids, response.data]); 
+        setShowAddModal(false);
+        setNewAcid(''); 
+        setErrorMessage(''); 
       })
       .catch(error => {
         console.error('Error adding acid:', error);
       });
   };
 
+  const filteredAcids = acids.filter(acid =>
+    acid.Compound.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+
   return (
     <div className="acids-container">
       <div className="header-row">
         <h2>ACIDS</h2>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search acids"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />
+        </div>
         <div className="action-buttons">
           <button
             className={`btn btn-danger ${deleteMode ? 'active' : ''}`}
@@ -126,7 +137,7 @@ const Acids = () => {
       </div>
 
       <div className="acids-grid">
-        {acids.map((acid, index) => (
+        {filteredAcids.map((acid, index) => (
           <div
             key={index}
             className={`acid-card
@@ -153,7 +164,6 @@ const Acids = () => {
         </div>
       </div>
 
-      {/* Edit Acid Modal */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -169,7 +179,6 @@ const Acids = () => {
         </div>
       )}
 
-      {/* Add Acid Modal */}
       {showAddModal && (
         <div className="modal">
           <div className="modal-content">
