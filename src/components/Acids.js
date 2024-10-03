@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  
+import axios from 'axios';
 import './Acids.css';
-import { BsTrash } from 'react-icons/bs'; 
+import { BsTrash, BsPencil } from 'react-icons/bs';
 
 const Acids = () => {
   const [acids, setAcids] = useState([]);
   const [deleteMode, setDeleteMode] = useState(false); 
+  const [editMode, setEditMode] = useState(false); 
   const [selectedAcid, setSelectedAcid] = useState(null); 
+  const [acidToEdit, setAcidToEdit] = useState(''); 
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedForDelete, setSelectedForDelete] = useState(null); 
 
   useEffect(() => {
     axios.get('https://retoolapi.dev/tnFVDY/acidsbases')
@@ -23,6 +27,7 @@ const Acids = () => {
     axios.delete(`https://api-generator.retool.com/tnFVDY/acidsbases/${acidId}`)
       .then(() => {
         setAcids(acids.filter(acid => acid.id !== acidId)); 
+        setSelectedForDelete(null); 
       })
       .catch(error => {
         console.error('Error deleting acid:', error);
@@ -30,12 +35,34 @@ const Acids = () => {
   };
 
   const handleSelectForDelete = (acid) => {
+    if (selectedForDelete === acid.id) {
+      handleDelete(acid.id); 
+    } else {
+      setSelectedForDelete(acid.id); 
+    }
+  };
+
+  const handleEdit = (acid) => {
     if (selectedAcid === acid.id) {
-      handleDelete(acid.id);
-      setSelectedAcid(null);
+      setShowModal(true); 
     } else {
       setSelectedAcid(acid.id);
+      setAcidToEdit(acid.Compound); 
     }
+  };
+
+  const handleUpdateAcid = () => {
+    const updatedAcid = { Compound: acidToEdit };
+
+    axios.put(`https://api-generator.retool.com/tnFVDY/acidsbases/${selectedAcid}`, updatedAcid)
+      .then(() => {
+        setAcids(acids.map(acid => acid.id === selectedAcid ? { ...acid, Compound: acidToEdit } : acid));
+        setShowModal(false);
+        setSelectedAcid(null);
+      })
+      .catch(error => {
+        console.error('Error updating acid:', error);
+      });
   };
 
   return (
@@ -47,28 +74,69 @@ const Acids = () => {
             className={`btn btn-danger ${deleteMode ? 'active' : ''}`} 
             onClick={() => {
               setDeleteMode(!deleteMode);
-              setSelectedAcid(null); // Clear selected acid when toggling delete mode
+              setEditMode(false); 
+              setSelectedForDelete(null); 
+              setSelectedAcid(null); 
             }}
           >
-            {deleteMode ? 'Cancel' : 'Delete Acid'} {/* Button text changes based on deleteMode */}
+            {deleteMode ? 'Cancel' : 'Delete Acid'}
           </button>
-          <button className="btn btn-warning">Edit Acid</button>
+          <button 
+            className={`btn btn-warning ${editMode ? 'active' : ''}`} 
+            onClick={() => {
+              setEditMode(!editMode);
+              setDeleteMode(false); 
+              setSelectedAcid(null);
+              setSelectedForDelete(null); 
+            }}
+          >
+            {editMode ? 'Cancel' : 'Edit Acid'}
+          </button>
         </div>
       </div>
+
       <div className="acids-grid">
         {acids.map((acid, index) => (
           <div 
             key={index} 
-            className={`acid-card ${deleteMode && 'highlight-for-delete'} ${selectedAcid === acid.id ? 'selected-for-delete' : ''}`} 
-            onClick={() => deleteMode && handleSelectForDelete(acid)}
+            className={`acid-card 
+              ${deleteMode && 'highlight-for-delete'} 
+              ${editMode && 'highlight-for-edit'} 
+              ${selectedForDelete === acid.id && deleteMode ? 'selected-for-delete' : ''} 
+              ${selectedAcid === acid.id && editMode ? 'selected-for-edit' : ''}`}
+            onClick={() => {
+              if (deleteMode) handleSelectForDelete(acid); 
+              if (editMode) handleEdit(acid); 
+            }}
           >
-            {selectedAcid === acid.id ? <BsTrash className="trash-icon" /> : <h3>{acid.Compound}</h3>}
+            {selectedForDelete === acid.id && deleteMode ? (
+              <BsTrash className="trash-icon" />
+            ) : selectedAcid === acid.id && editMode ? (
+              <BsPencil className="pencil-icon" />
+            ) : (
+              <h3>{acid.Compound}</h3>
+            )}
           </div>
         ))}
         <div className="add-acid">
           <h3>+</h3>
         </div>
       </div>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>EDIT ACID</h3>
+            <input 
+              type="text" 
+              value={acidToEdit} 
+              onChange={(e) => setAcidToEdit(e.target.value)} 
+            />
+            <button className="btn btn-primary" onClick={handleUpdateAcid}>Update</button>
+            <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
