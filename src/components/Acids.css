@@ -218,3 +218,16 @@ h2 {
     font-size: 14px;
     margin-bottom: 10px;
 }
+
+.search-bar {
+    margin-right: 10px;
+}
+
+.search-bar input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 200px;
+    margin-left: 295px;
+}

@@ -14,6 +14,7 @@ const Acids = () => {
   const [showAddModal, setShowAddModal] = useState(false); 
   const [newAcid, setNewAcid] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   useEffect(() => {
     axios.get('https://retoolapi.dev/tnFVDY/acidsbases')
@@ -93,10 +94,22 @@ const Acids = () => {
       });
   };
 
+  const filteredAcids = acids.filter(acid =>
+    acid.Compound.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+
   return (
     <div className="acids-container">
       <div className="header-row">
         <h2>ACIDS</h2>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search acids"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />
+        </div>
         <div className="action-buttons">
           <button
             className={`btn btn-danger ${deleteMode ? 'active' : ''}`}
@@ -124,7 +137,7 @@ const Acids = () => {
       </div>
 
       <div className="acids-grid">
-        {acids.map((acid, index) => (
+        {filteredAcids.map((acid, index) => (
           <div
             key={index}
             className={`acid-card
