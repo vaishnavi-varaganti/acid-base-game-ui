@@ -12,7 +12,7 @@ import Dashboard from '../src/components/Dashboard';
 function App() {
   return (
     <Router>
-       <Header />
+       <Header /> 
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>

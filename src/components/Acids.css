@@ -1,0 +1,57 @@
+.acids-container {
+    margin-top: 80px;
+    padding: 20px;
+    text-align: center;
+    justify-content: center; 
+    margin-left: 220px;
+    margin-right: 220px;
+  }
+  
+  h2 {
+    font-family: 'Sixtyfour Convergence';
+    margin-bottom: 20px;
+    font-size: 35px;
+  }
+  
+  .acids-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px;  
+    justify-items: center; 
+  }
+  
+  .acid-card {
+    background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%);
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+    width: 150px;
+  }
+  
+  .acid-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .add-acid {
+    /* background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%); */
+    background-color: #b388ff;
+    border: 1px solid #0a0a0a;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bolder;
+  }
+
+  .add-acid:hover {
+    transform: scale(1.05);
+  }
