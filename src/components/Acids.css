@@ -1,26 +1,32 @@
 .acids-container {
-    margin-top: 80px;
+    margin-top: 100px;
     padding: 20px;
     text-align: center;
     justify-content: center; 
     margin-left: 220px;
     margin-right: 220px;
-  }
-  
-  h2 {
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 {
     font-family: 'Sixtyfour Convergence';
     margin-bottom: 20px;
     font-size: 35px;
-  }
-  
-  .acids-grid {
+}
+
+.acids-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr); 
     gap: 15px;  
     justify-items: center; 
-  }
-  
-  .acid-card {
+}
+
+.acid-card {
     background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%);
     border: 1px solid #ddd;
     padding: 10px;
@@ -29,15 +35,15 @@
     text-align: center;
     transition: transform 0.2s;
     width: 150px;
-  }
-  
-  .acid-card:hover {
+    cursor: pointer;
+}
+
+.acid-card:hover {
     transform: scale(1.05);
-  }
-  
-  .add-acid {
-    /* background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%); */
-    background-color: #b388ff;
+}
+
+.add-acid {
+    background: linear-gradient(135deg, #f9e79f 0%, #f4d03f 100%);
     border: 1px solid #0a0a0a;
     padding: 10px;
     border-radius: 10px;
@@ -50,8 +56,58 @@
     justify-content: center;
     cursor: pointer;
     font-weight: bolder;
-  }
+}
 
-  .add-acid:hover {
+.add-acid:hover {
     transform: scale(1.05);
-  }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger {
+    background-color: red;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+.btn.active {
+    background-color: #ff6666;
+}
+
+.selected-for-delete {
+    background-color: #ffcccc;
+    border-color: red;
+}
+
+.highlight-for-delete {
+    border: 2px dashed red;
+    transition: all 0.2s ease;
+}
+
+.trash-icon {
+    font-size: 24px;
+    color: red;
+    align-items: center;
+    margin-top: 20px;
+}
