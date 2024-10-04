@@ -78,8 +78,8 @@ const Acids = () => {
     }
 
     const newAcidData = {
-      Compound: newAcid,
-      Type: 'Acid'
+        Type: 'Acid',
+        Compound: newAcid
     };
 
     axios.post('https://api-generator.retool.com/tnFVDY/acidsbases', newAcidData)
