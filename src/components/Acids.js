@@ -15,6 +15,7 @@ const Acids = () => {
     const [newAcid, setNewAcid] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // State for delete confirmation modal
 
     useEffect(() => {
         axios.get('https://retoolapi.dev/tnFVDY/acidsbases')
@@ -27,11 +28,12 @@ const Acids = () => {
             });
     }, []);
 
-    const handleDelete = (acidId) => {
-        axios.delete(`https://api-generator.retool.com/tnFVDY/acidsbases/${acidId}`)
+    const handleDelete = () => {
+        axios.delete(`https://api-generator.retool.com/tnFVDY/acidsbases/${selectedForDelete}`)
             .then(() => {
-                setAcids(acids.filter(acid => acid.id !== acidId));
+                setAcids(acids.filter(acid => acid.id !== selectedForDelete));
                 setSelectedForDelete(null);
+                setShowDeleteModal(false); // Close the modal after delete
             })
             .catch(error => {
                 console.error('Error deleting acid:', error);
@@ -39,11 +41,8 @@ const Acids = () => {
     };
 
     const handleSelectForDelete = (acid) => {
-        if (selectedForDelete === acid.id) {
-            handleDelete(acid.id);
-        } else {
-            setSelectedForDelete(acid.id);
-        }
+        setSelectedForDelete(acid.id);
+        setShowDeleteModal(true); // Show confirmation modal
     };
 
     const handleEdit = (acid) => {
@@ -95,6 +94,11 @@ const Acids = () => {
             .catch(error => {
                 console.error('Error adding acid:', error);
             });
+    };
+
+    const handleCancelDelete = () => {
+        setShowDeleteModal(false); // Close the delete confirmation modal
+        setSelectedForDelete(null); // Reset the selected acid for delete
     };
 
     const filteredAcids = acids.filter(acid =>
@@ -195,6 +199,17 @@ const Acids = () => {
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <button className="btn btn-primary" onClick={handleAddAcid}>Add</button>
                         <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
+                    </div>
+                </div>
+            )}
+
+            {showDeleteModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Confirm deletion of this acid?</h3>
+                        <h3>{acids.find(acid => acid.id === selectedForDelete)?.Compound}</h3>
+                        <button className="btn btn-primary" onClick={handleDelete}>OK</button>
+                        <button className="btn btn-secondary" onClick={handleCancelDelete}>Cancel</button>
                     </div>
                 </div>
             )}
