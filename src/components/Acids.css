@@ -3,7 +3,7 @@
     padding: 20px;
     text-align: center;
     justify-content: center; 
-    margin-left: 220px;
+    margin-left: 150px;
     margin-right: 220px;
 }
 
@@ -75,6 +75,7 @@ h2 {
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 120px;
 }
 
 .btn-danger {
@@ -229,5 +230,5 @@ h2 {
     border: 1px solid black;
     border-radius: 5px;
     width: 200px;
-    margin-left: 295px;
+    margin-left: 260px;
 }
