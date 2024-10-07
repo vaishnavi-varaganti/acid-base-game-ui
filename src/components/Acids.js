@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Acids.css';
 import { BsTrash, BsPencil } from 'react-icons/bs';
+import confetti from 'canvas-confetti';
 
 const Acids = () => {
     const [acids, setAcids] = useState([]);
@@ -92,11 +93,37 @@ const Acids = () => {
                 setShowAddModal(false);
                 setNewAcid('');
                 setErrorMessage('');
+                triggerConfetti();
             })
             .catch(error => {
                 console.error('Error adding acid:', error);
             });
     };
+
+    const triggerConfetti = () => {
+        const duration = 1 * 1000; 
+        const end = Date.now() + duration;
+        const vibrantColors = ['#FF6347', '#FF4500', '#FFD700', '#ADFF2F', '#00CED1', '#1E90FF', '#9932CC', '#FF69B4']; 
+        const frame = () => {
+            confetti({
+                particleCount: 7, 
+                startVelocity: 30,
+                spread: 360, 
+                ticks: 200,
+                origin: {
+                    x: Math.random(), 
+                    y: Math.random() * 0.2 
+                },
+                gravity: 0.7, 
+                scalar: 1.2, 
+                colors: vibrantColors 
+            });
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        };
+        frame();
+    };    
 
     const handleCancelDelete = () => {
         setShowDeleteModal(false); 
