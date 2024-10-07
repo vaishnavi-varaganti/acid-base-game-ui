@@ -15,7 +15,7 @@ const Acids = () => {
     const [newAcid, setNewAcid] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [showDeleteModal, setShowDeleteModal] = useState(false); // State for delete confirmation modal
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         axios.get('https://retoolapi.dev/tnFVDY/acidsbases')
@@ -34,6 +34,7 @@ const Acids = () => {
                 setAcids(acids.filter(acid => acid.id !== selectedForDelete));
                 setSelectedForDelete(null);
                 setShowDeleteModal(false); // Close the modal after delete
+                setDeleteMode(false); // Reset delete mode to stop highlighting and change the button
             })
             .catch(error => {
                 console.error('Error deleting acid:', error);
