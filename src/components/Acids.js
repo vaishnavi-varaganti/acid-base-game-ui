@@ -33,8 +33,8 @@ const Acids = () => {
             .then(() => {
                 setAcids(acids.filter(acid => acid.id !== selectedForDelete));
                 setSelectedForDelete(null);
-                setShowDeleteModal(false); // Close the modal after delete
-                setDeleteMode(false); // Reset delete mode to stop highlighting and change the button
+                setShowDeleteModal(false); 
+                setDeleteMode(false); 
             })
             .catch(error => {
                 console.error('Error deleting acid:', error);
@@ -43,7 +43,7 @@ const Acids = () => {
 
     const handleSelectForDelete = (acid) => {
         setSelectedForDelete(acid.id);
-        setShowDeleteModal(true); // Show confirmation modal
+        setShowDeleteModal(true); 
     };
 
     const handleEdit = (acid) => {
@@ -66,6 +66,7 @@ const Acids = () => {
                 setAcids(acids.map(acid => acid.id === selectedAcid ? { ...acid, Compound: acidToEdit } : acid));
                 setShowModal(false);
                 setSelectedAcid(null);
+                setEditMode(false);
             })
             .catch(error => {
                 console.error('Error updating acid:', error);
@@ -98,8 +99,8 @@ const Acids = () => {
     };
 
     const handleCancelDelete = () => {
-        setShowDeleteModal(false); // Close the delete confirmation modal
-        setSelectedForDelete(null); // Reset the selected acid for delete
+        setShowDeleteModal(false); 
+        setSelectedForDelete(null); 
     };
 
     const filteredAcids = acids.filter(acid =>
