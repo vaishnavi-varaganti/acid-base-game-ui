@@ -1,63 +1,82 @@
 .dashboard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: white;
-  }
-  
-  .card {
-    width: 300px;
-    height: 320px; 
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    text-align: center;
-    padding: 20px;
-    background-color: white;
-    position: relative;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    margin-top: 60px;
-  }
-  
-  .card-content {
-    margin-bottom: 20px;
-  }
-  
-  .card-image {
-    width: 225px; 
-    height: 225px;
-    margin-top: 10px;
-  }
-  
-  .acids {
-    background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%);
-    margin-right: 20px;
-  }
-  
-  .bases {
-    background: linear-gradient(135deg, #f9e79f 0%, #f4d03f 100%);
-    margin-right: 20px;
-  }
-  
-  .reactions {
-    background: linear-gradient(135deg, #4dd0e1 0%, #26c6da 100%);
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card h3 {
-    /* font-family: 'Orbitron'; */
-    font-family: 'Sixtyfour Convergence';
-    font-size: 30px;
-    margin-bottom: 15px;
-  }
-  
-  .card p {
-    font-size: 16px;
-    color: #555;
-  }  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  background-color: white;
+  position: relative;
+  margin-top: 10px;
+  padding: 70px;
+  margin-bottom: 0px;
+}
+
+.download-btn {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  background-color:rgb(251, 101, 101);
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+  margin-top: 90px;
+  font-weight: bold;
+}
+
+.download-btn:hover {
+  background-color: red;
+}
+
+.card {
+  width: 300px;
+  height: 320px; 
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: 60px;
+}
+
+.card-content {
+  margin-bottom: 20px;
+}
+
+.card-image {
+  width: 225px; 
+  height: 225px;
+  margin-top: 10px;
+}
+
+.acids {
+  background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%);
+  margin-right: 20px;
+}
+
+.bases {
+  background: linear-gradient(135deg, #f9e79f 0%, #f4d03f 100%);
+  margin-right: 20px;
+}
+
+.reactions {
+  background: linear-gradient(135deg, #4dd0e1 0%, #26c6da 100%);
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  font-family: 'Sixtyfour Convergence';
+  font-size: 30px;
+  margin-bottom: 15px;
+}
