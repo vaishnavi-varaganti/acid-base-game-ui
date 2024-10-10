@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Navbar from '../src/components/Navbar';
 import Header from './components/Header';
-// import Login from './Login';
+import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
 import Dashboard from '../src/components/Dashboard';
 import Acids from '../src/components/Acids';
 // import BasesList from './BasesList';
@@ -14,6 +15,8 @@ function App() {
     <Router>
        <Header /> 
       <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/acids" element={<Acids />} />
       </Routes>
