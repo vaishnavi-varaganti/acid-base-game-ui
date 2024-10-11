@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import './Users.css';
 import emailjs from '@emailjs/browser';
+import confetti from 'canvas-confetti';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -63,6 +64,7 @@ const Users = () => {
       toast.success('User added successfully');
       sendWelcomeEmail(email, tempPassword);
       setIsModalOpen(false);
+      triggerConfetti();
       fetchUsers();
     } catch (error) {
       toast.error('Error adding user');
@@ -96,6 +98,31 @@ const Users = () => {
       password += charset[randomIndex];
     }
     return password;
+  };
+
+  const triggerConfetti = () => {
+    const duration = 1 * 1000;
+    const end = Date.now() + duration;
+    const vibrantColors = ['#FF6347', '#FF4500', '#FFD700', '#ADFF2F', '#00CED1', '#1E90FF', '#9932CC', '#FF69B4'];
+    const frame = () => {
+      confetti({
+        particleCount: 7,
+        startVelocity: 30,
+        spread: 360,
+        ticks: 200,
+        origin: {
+          x: Math.random(),
+          y: Math.random() * 0.2
+        },
+        gravity: 0.7,
+        scalar: 1.2,
+        colors: vibrantColors
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
   };
 
   const handleEditUser = async () => {
