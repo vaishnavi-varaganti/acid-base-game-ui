@@ -6,6 +6,7 @@ import { FaTrash, FaEdit } from 'react-icons/fa';
 import './Users.css';
 import emailjs from '@emailjs/browser';
 import CryptoJS from 'crypto-js';
+import confetti from 'canvas-confetti';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -65,6 +66,7 @@ const Users = () => {
       toast.success('User added successfully');
       sendWelcomeEmail(email, tempPassword);
       setIsModalOpen(false);
+      triggerConfetti();
       fetchUsers();
     } catch (error) {
       toast.error('Error adding user');
@@ -77,31 +79,31 @@ const Users = () => {
     const key = process.env.REACT_APP_CIPHER_KEY;
 
     if (!plainText || plainText.length <= 0) {
-        throw new Error('plainText cannot be null or empty.');
+      throw new Error('plainText cannot be null or empty.');
     }
     if (!key || key.length <= 0) {
-        throw new Error('Key cannot be null or empty.');
+      throw new Error('Key cannot be null or empty.');
     }
 
     const keyBytes = CryptoJS.enc.Utf8.parse(key);
     const iv = CryptoJS.enc.Utf8.parse(key);
 
     const encrypted = CryptoJS.AES.encrypt(plainText, keyBytes, {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
     });
 
     return encrypted.toString();
-};
+  };
 
   const sendWelcomeEmail = (userEmail, tempPassword) => {
     const templateParams = {
-      recipient: userEmail, 
-      to_name: userEmail.split('@')[0], 
-      temp_password: tempPassword, 
+      recipient: userEmail,
+      to_name: userEmail.split('@')[0],
+      temp_password: tempPassword,
     };
-  
+
     emailjs.send('service_9gqt8y6', 'template_wco48qs', templateParams, '6cI_R7op59lEst987')
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
@@ -121,6 +123,31 @@ const Users = () => {
       password += charset[randomIndex];
     }
     return password;
+  };
+
+  const triggerConfetti = () => {
+    const duration = 1 * 1000;
+    const end = Date.now() + duration;
+    const vibrantColors = ['#FF6347', '#FF4500', '#FFD700', '#ADFF2F', '#00CED1', '#1E90FF', '#9932CC', '#FF69B4'];
+    const frame = () => {
+      confetti({
+        particleCount: 7,
+        startVelocity: 30,
+        spread: 360,
+        ticks: 200,
+        origin: {
+          x: Math.random(),
+          y: Math.random() * 0.2
+        },
+        gravity: 0.7,
+        scalar: 1.2,
+        colors: vibrantColors
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
   };
 
   const handleEditUser = async () => {
