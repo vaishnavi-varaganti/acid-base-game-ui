@@ -42,7 +42,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <button className="users-btn" onClick={() => navigate('/users')}>
-        + Users
+        Users
       </button>
       <button className="download-btn" onClick={downloadReport}>
         Download Report
