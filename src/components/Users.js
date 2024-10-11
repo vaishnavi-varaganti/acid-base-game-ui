@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import './Users.css';
+import emailjs from '@emailjs/browser';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -48,17 +49,19 @@ const Users = () => {
   const handleEdit = (user) => {
     setSelectedUser(user);
     setEmail(user.Email);
-    setStoredPassword(user.Password || ''); // Store the existing password but do not show it in the UI.
+    setStoredPassword(user.Password || ''); 
     setIsEditModalOpen(true);
   };
 
   const handleAddUser = async () => {
+    const tempPassword = 'sample123';
     try {
       await axios.post('https://api-generator.retool.com/ocWM6W/usercredentials', {
         Email: email,
-        Password: 'sample123',
+        Password: tempPassword,
       });
       toast.success('User added successfully');
+      sendWelcomeEmail(email, tempPassword);
       setIsModalOpen(false);
       fetchUsers();
     } catch (error) {
@@ -67,11 +70,29 @@ const Users = () => {
     }
   };
 
+  const sendWelcomeEmail = (userEmail, tempPassword) => {
+    const templateParams = {
+      recipient: userEmail, 
+      to_name: userEmail.split('@')[0], 
+      temp_password: tempPassword, 
+    };
+  
+    emailjs.send('service_9gqt8y6', 'template_wco48qs', templateParams, '6cI_R7op59lEst987')
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        toast.success('Welcome email sent successfully');
+      })
+      .catch((error) => {
+        console.error('FAILED...', error);
+        toast.error('Failed to send welcome email');
+      });
+  };
+  
   const handleEditUser = async () => {
     try {
       await axios.put(`https://api-generator.retool.com/ocWM6W/usercredentials/${selectedUser.id}`, {
         Email: email,
-        Password: storedPassword, // Use the stored password during the PUT operation.
+        Password: storedPassword,
       });
       toast.success('User updated successfully');
       setIsEditModalOpen(false);
