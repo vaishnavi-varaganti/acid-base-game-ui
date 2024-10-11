@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
+import CryptoJS from 'crypto-js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,18 +40,14 @@ const Login = () => {
     }
   
     try {
-      const response = await axios.get('https://api-generator.retool.com/ocWM6W/usercredentials');
-      const user = response.data.find(
-        (user) =>
-          user.Email.toLowerCase() === email.toLowerCase() &&
-          user.Password === password
-      );
-  
-      if (user) {
+      const response = await axios.get(`https://api-generator.retool.com/ocWM6W/usercredentials?Email=${email}`);
+      const user = response.data;
+      const decryptedPassword = decryptStringFromBytes(user[0].Password);
+      if (decryptedPassword.trim() === password.trim()) {
         toast.success('Login successful!');
         setTimeout(() => {
           navigate('/dashboard');
-        }, 3000); 
+        }, 1000); 
       }else {
         setError('Invalid email or password.');
         toast.error('Invalid email or password.');
@@ -63,6 +60,34 @@ const Login = () => {
   
     setLoading(false);
   };
+
+
+  const decryptStringFromBytes = (cipherText) => {
+
+    const key = process.env.REACT_APP_CIPHER_KEY;
+
+    if (!cipherText || cipherText.length <= 0) {
+        throw new Error('cipherText cannot be null or empty.');
+    }
+    if (!key || key.length <= 0) {
+        throw new Error('Key cannot be null or empty.');
+    }
+
+    const keyBytes = CryptoJS.enc.Utf8.parse(key);
+    const iv = CryptoJS.enc.Utf8.parse(key);
+
+    try {
+        const decrypted = CryptoJS.AES.decrypt(cipherText, keyBytes, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    } catch (error) {
+        return 'keyError';
+    }
+};
 
   return (
     <div className="login-form-container">
@@ -100,7 +125,7 @@ const Login = () => {
           {loading ? 'Logging in...' : 'LOGIN'}
         </button>
       </form>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={1000} />
     </div>
   );
 };

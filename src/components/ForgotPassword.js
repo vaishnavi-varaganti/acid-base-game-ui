@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './ForgotPassword.css';
 import { useNavigate } from 'react-router-dom';
+import CryptoJS from 'crypto-js';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -81,17 +82,43 @@ const ForgotPassword = () => {
 
       await axios.put(`https://api-generator.retool.com/ocWM6W/usercredentials/${user.id}`, {
         Email: email,
-        Password: newPassword,
+        Password: encryptStringToBytesAES(newPassword),
       });
 
       toast.success('Password updated successfully!');
-      navigate('/');
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000); 
     } catch (error) {
       console.error('Error updating password:', error);
       setError('An error occurred. Please try again later.');
       toast.error('An error occurred. Please try again later.');
     }
   };
+
+  const encryptStringToBytesAES = (plainText) => {
+
+    const key = process.env.REACT_APP_CIPHER_KEY;
+
+    if (!plainText || plainText.length <= 0) {
+        throw new Error('plainText cannot be null or empty.');
+    }
+    if (!key || key.length <= 0) {
+        throw new Error('Key cannot be null or empty.');
+    }
+
+    const keyBytes = CryptoJS.enc.Utf8.parse(key);
+    const iv = CryptoJS.enc.Utf8.parse(key);
+
+    const encrypted = CryptoJS.AES.encrypt(plainText, keyBytes, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    return encrypted.toString();
+};
+
 
   return (
     <div className="forgot-password-form-container">
@@ -162,7 +189,7 @@ const ForgotPassword = () => {
           </button>
         </div>
       </form>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={1000} />
     </div>
   );
 };

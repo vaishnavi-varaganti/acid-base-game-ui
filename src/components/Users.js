@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import './Users.css';
 import emailjs from '@emailjs/browser';
+import CryptoJS from 'crypto-js';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -55,10 +56,11 @@ const Users = () => {
 
   const handleAddUser = async () => {
     const tempPassword = generateRandomPassword();
+    const encryptedPassword = encryptStringToBytesAES(tempPassword)
     try {
       await axios.post('https://api-generator.retool.com/ocWM6W/usercredentials', {
         Email: email,
-        Password: tempPassword,
+        Password: encryptedPassword,
       });
       toast.success('User added successfully');
       sendWelcomeEmail(email, tempPassword);
@@ -69,6 +71,29 @@ const Users = () => {
       console.error('Error adding user:', error);
     }
   };
+
+  const encryptStringToBytesAES = (plainText) => {
+
+    const key = process.env.REACT_APP_CIPHER_KEY;
+
+    if (!plainText || plainText.length <= 0) {
+        throw new Error('plainText cannot be null or empty.');
+    }
+    if (!key || key.length <= 0) {
+        throw new Error('Key cannot be null or empty.');
+    }
+
+    const keyBytes = CryptoJS.enc.Utf8.parse(key);
+    const iv = CryptoJS.enc.Utf8.parse(key);
+
+    const encrypted = CryptoJS.AES.encrypt(plainText, keyBytes, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    return encrypted.toString();
+};
 
   const sendWelcomeEmail = (userEmail, tempPassword) => {
     const templateParams = {
