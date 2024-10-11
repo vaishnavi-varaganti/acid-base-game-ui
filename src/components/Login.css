@@ -1,6 +1,5 @@
 .login-form-container {
     max-width: 400px;
-    margin: 0 auto;
     padding: 30px;
     background: linear-gradient(90deg, #a8e6cf, #dcedc1, #c2e9fb);
     border-radius: 12px;
@@ -8,6 +7,7 @@
     text-align: center;
     margin-top: 150px;
     color: #333;
+    margin-left: 450px;
 }
 
 h1 {
