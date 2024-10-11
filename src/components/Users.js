@@ -49,12 +49,12 @@ const Users = () => {
   const handleEdit = (user) => {
     setSelectedUser(user);
     setEmail(user.Email);
-    setStoredPassword(user.Password || ''); 
+    setStoredPassword(user.Password || '');
     setIsEditModalOpen(true);
   };
 
   const handleAddUser = async () => {
-    const tempPassword = 'sample123';
+    const tempPassword = generateRandomPassword();
     try {
       await axios.post('https://api-generator.retool.com/ocWM6W/usercredentials', {
         Email: email,
@@ -87,7 +87,17 @@ const Users = () => {
         toast.error('Failed to send welcome email');
       });
   };
-  
+
+  const generateRandomPassword = (length = 10) => {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+    return password;
+  };
+
   const handleEditUser = async () => {
     try {
       await axios.put(`https://api-generator.retool.com/ocWM6W/usercredentials/${selectedUser.id}`, {

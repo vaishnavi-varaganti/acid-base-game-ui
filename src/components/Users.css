@@ -12,7 +12,7 @@
   align-items: center;
   width: 80%;
   max-width: 800px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .search-add input {
@@ -25,7 +25,7 @@
 
 .search-add button {
   padding: 8px 12px;
-  background-color: #6fbad3;
+  background-color: #12b8ef;
   color: white;
   border: none;
   border-radius: 4px;
