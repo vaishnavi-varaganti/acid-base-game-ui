@@ -87,7 +87,7 @@ const ForgotPassword = () => {
 
       toast.success('Password updated successfully!');
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/');
       }, 1000); 
     } catch (error) {
       console.error('Error updating password:', error);
