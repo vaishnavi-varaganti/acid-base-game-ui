@@ -1,15 +1,21 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import logo from '../assets/logo.png';
 
 const Header = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleImageClick = () =>{
+        if(location.pathname !== '/')
+        navigate('/dashboard');
+    }
     
     return (
         <header className="header">
             <div className="header-left">
-                <img src={logo} alt="Logo" className="header-logo" />
+                <img src={logo} alt="Logo" className="header-logo" onClick={handleImageClick} />
             </div>
             <div className="header-middle">
                 <h2>ACID-BASE</h2>

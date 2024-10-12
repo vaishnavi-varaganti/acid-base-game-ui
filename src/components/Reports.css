@@ -28,6 +28,10 @@
     border-radius: 4px;
     cursor: pointer;
   }
+
+  .search-download button:hover {
+    background-color: #f85950
+  }
   
   .reports-table {
     width: 100%;
