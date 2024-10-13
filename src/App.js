@@ -8,9 +8,8 @@ import Dashboard from '../src/components/Dashboard';
 import Acids from '../src/components/Acids';
 import Users from '../src/components/Users';
 import Reports from '../src/components/Reports';
-// import BasesList from './BasesList';
+import Bases from '../src/components/Bases';
 // import ReactionsList from './ReactionsList';
-// import Results from './Results';
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
         <Route path="/acids" element={<Acids />} />
         <Route path="/users" element={<Users />} />
         <Route path="/reports" element={<Reports />} />
+        <Route path="/bases" element={<Bases />} />
       </Routes>
     </Router>
   );

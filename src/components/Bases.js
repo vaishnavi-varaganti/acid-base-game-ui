@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Acids.css';
+import './Bases.css';
 import { BsTrash, BsPencil } from 'react-icons/bs';
 import confetti from 'canvas-confetti';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Acids = () => {
-    const [acids, setAcids] = useState([]);
+const Bases = () => {
+    const [bases, setBases] = useState([]);
     const [deleteMode, setDeleteMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [selectedAcid, setSelectedAcid] = useState(null);
-    const [acidToEdit, setAcidToEdit] = useState('');
+    const [selectedBase, setSelectedBase] = useState(null);
+    const [baseToEdit, setBaseToEdit] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedForDelete, setSelectedForDelete] = useState(null);
     const [showAddModal, setShowAddModal] = useState(false);
-    const [newAcid, setNewAcid] = useState('');
+    const [newBase, setNewBase] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -23,89 +23,89 @@ const Acids = () => {
     useEffect(() => {
         axios.get('https://retoolapi.dev/tnFVDY/acidsbases')
             .then((response) => {
-                const acidsData = response.data.filter(item => item.Type === "Acid");
-                setAcids(acidsData);
+                const basesData = response.data.filter(item => item.Type === "Base");
+                setBases(basesData);
             })
             .catch((error) => {
-                console.error('Error fetching acids:', error);
+                console.error('Error fetching bases:', error);
             });
     }, []);
 
     const handleDelete = () => {
         axios.delete(`https://api-generator.retool.com/tnFVDY/acidsbases/${selectedForDelete}`)
             .then(() => {
-                setAcids(acids.filter(acid => acid.id !== selectedForDelete));
+                setBases(bases.filter(base => base.id !== selectedForDelete));
                 setSelectedForDelete(null);
                 setShowDeleteModal(false); 
-                setDeleteMode(false); 
-                toast.success('Acid deleted successfully!');
+                setDeleteMode(false);
+                toast.success('Base deleted successfully.'); 
             })
             .catch(error => {
-                console.error('Error deleting acid:', error);
-                toast.error('Could not delete Acid!');
+                console.error('Error deleting base:', error);
+                toast.error('Could not delete Base!');
             });
     };
 
-    const handleSelectForDelete = (acid) => {
-        setSelectedForDelete(acid.id);
+    const handleSelectForDelete = (base) => {
+        setSelectedForDelete(base.id);
         setShowDeleteModal(true); 
     };
 
-    const handleEdit = (acid) => {
-        if (selectedAcid === acid.id) {
+    const handleEdit = (base) => {
+        if (selectedBase === base.id) {
             setShowModal(true);
         } else {
-            setSelectedAcid(acid.id);
-            setAcidToEdit(acid.Compound);
+            setSelectedBase(base.id);
+            setBaseToEdit(base.Compound);
         }
     };
 
-    const handleUpdateAcid = () => {
-        const updatedAcid = {
-            Type: 'Acid',
-            Compound: acidToEdit
+    const handleUpdateBase = () => {
+        const updatedBase = {
+            Type: 'Base',
+            Compound: baseToEdit
         };
 
-        axios.put(`https://api-generator.retool.com/tnFVDY/acidsbases/${selectedAcid}`, updatedAcid)
+        axios.put(`https://api-generator.retool.com/tnFVDY/acidsbases/${selectedBase}`, updatedBase)
             .then(() => {
-                setAcids(acids.map(acid => acid.id === selectedAcid ? { ...acid, Compound: acidToEdit } : acid));
+                setBases(bases.map(base => base.id === selectedBase ? { ...base, Compound: baseToEdit } : base));
                 setShowModal(false);
-                setSelectedAcid(null);
+                setSelectedBase(null);
                 setEditMode(false);
-                toast.success('Acid updated successfully!');
+                toast.success('Base updated successfully.');
             })
             .catch(error => {
-                console.error('Error updating acid:', error);
-                toast.error('Could not update Acid!');
+                console.error('Error updating base:', error);
+                toast.error('Could not update Base!');
             });
     };
 
-    const handleAddAcid = () => {
-        const acidExists = acids.some(acid => acid.Compound.toLowerCase() === newAcid.toLowerCase());
+    const handleAddBase = () => {
+        const baseExists = bases.some(base => base.Compound.toLowerCase() === newBase.toLowerCase());
 
-        if (acidExists) {
-            setErrorMessage('Acid already exists!');
-            toast.error('Acid already exists!');
+        if (baseExists) {
+            setErrorMessage('Base already exists!');
+            toast.error('Base already exists!');
             return;
         }
 
-        const newAcidData = {
-            Type: 'Acid',
-            Compound: newAcid
+        const newBaseData = {
+            Type: 'Base',
+            Compound: newBase
         };
 
-        axios.post('https://api-generator.retool.com/tnFVDY/acidsbases', newAcidData)
+        axios.post('https://api-generator.retool.com/tnFVDY/acidsbases', newBaseData)
             .then((response) => {
-                setAcids([...acids, response.data]);
+                setBases([...bases, response.data]);
                 setShowAddModal(false);
-                setNewAcid('');
+                setNewBase('');
                 setErrorMessage('');
-                toast.success('Acid added successfully!');
                 triggerConfetti();
+                toast.success('Base added successfully.');
             })
             .catch(error => {
-                console.error('Error adding acid:', error);
-                toast.error('Could not add Acid!');
+                console.error('Error adding base:', error);
+                toast.error('Could not add Base!');
             });
     };
 
@@ -142,22 +142,23 @@ const Acids = () => {
 
     const handleCancelEdit = () => {
         setShowModal(false);
-        setSelectedAcid(null);
+        setSelectedBase(null);
         setEditMode(false); 
     };
 
-    const filteredAcids = acids.filter(acid =>
-        acid.Compound.toLowerCase().includes(searchTerm.toLowerCase())
+
+    const filteredBases = bases.filter(base =>
+        base.Compound.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
-        <div className="acids-container">
+        <div className="bases-container">
             <div className="header-row">
-                <h2>ACIDS</h2>
+                <h2>BASES</h2>
                 <div className="search-bar">
                     <input
                         type="text"
-                        placeholder="Search acids"
+                        placeholder="Search bases"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -169,49 +170,49 @@ const Acids = () => {
                             setDeleteMode(!deleteMode);
                             setEditMode(false);
                             setSelectedForDelete(null);
-                            setSelectedAcid(null);
+                            setSelectedBase(null);
                         }}
                     >
-                        {deleteMode ? 'Cancel' : 'Delete Acid'}
+                        {deleteMode ? 'Cancel' : 'Delete Base'}
                     </button>
                     <button
                         className={`btn btn-warning ${editMode ? 'active' : ''}`}
                         onClick={() => {
                             setEditMode(!editMode);
                             setDeleteMode(false);
-                            setSelectedAcid(null);
+                            setSelectedBase(null);
                             setSelectedForDelete(null);
                         }}
                     >
-                        {editMode ? 'Cancel' : 'Edit Acid'}
+                        {editMode ? 'Cancel' : 'Edit Base'}
                     </button>
                 </div>
             </div>
 
-            <div className="acids-grid">
-                {filteredAcids.map((acid, index) => (
+            <div className="bases-grid">
+                {filteredBases.map((base, index) => (
                     <div
                         key={index}
-                        className={`acid-card
+                        className={`base-card
               ${deleteMode && 'highlight-for-delete'}
               ${editMode && 'highlight-for-edit'}
-              ${selectedForDelete === acid.id && deleteMode ? 'selected-for-delete' : ''}
-              ${selectedAcid === acid.id && editMode ? 'selected-for-edit' : ''}`}
+              ${selectedForDelete === base.id && deleteMode ? 'selected-for-delete' : ''}
+              ${selectedBase === base.id && editMode ? 'selected-for-edit' : ''}`}
                         onClick={() => {
-                            if (deleteMode) handleSelectForDelete(acid);
-                            if (editMode) handleEdit(acid);
+                            if (deleteMode) handleSelectForDelete(base);
+                            if (editMode) handleEdit(base);
                         }}
                     >
-                        {selectedForDelete === acid.id && deleteMode ? (
+                        {selectedForDelete === base.id && deleteMode ? (
                             <BsTrash className="trash-icon" />
-                        ) : selectedAcid === acid.id && editMode ? (
+                        ) : selectedBase === base.id && editMode ? (
                             <BsPencil className="pencil-icon" />
                         ) : (
-                            <h3>{acid.Compound}</h3>
+                            <h3>{base.Compound}</h3>
                         )}
                     </div>
                 ))}
-                <div className="add-acid" onClick={() => setShowAddModal(true)}>
+                <div className="add-base" onClick={() => setShowAddModal(true)}>
                     <h3>+</h3>
                 </div>
             </div>
@@ -219,14 +220,14 @@ const Acids = () => {
             {showModal && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h3>Edit Acid</h3>
+                        <h3>Edit Base</h3>
                         <input
                             type="text"
-                            value={acidToEdit}
-                            onChange={(e) => setAcidToEdit(e.target.value)}
+                            value={baseToEdit}
+                            onChange={(e) => setBaseToEdit(e.target.value)}
                         />
-                        <button className="btn btn-primary" onClick={handleUpdateAcid}>Update</button>
-                        <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                        <button className="btn btn-primary" onClick={handleUpdateBase}>Update</button>
+                        <button className="btn btn-secondary" onClick={handleCancelEdit}>Cancel</button>
                     </div>
                 </div>
             )}
@@ -234,16 +235,16 @@ const Acids = () => {
             {showAddModal && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h3>Add New Acid</h3>
+                        <h3>Add New Base</h3>
                         <input
                             type="text"
-                            value={newAcid}
-                            onChange={(e) => setNewAcid(e.target.value)}
-                            placeholder="Enter acid name"
+                            value={newBase}
+                            onChange={(e) => setNewBase(e.target.value)}
+                            placeholder="Enter base name"
                         />
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
-                        <button className="btn btn-primary" onClick={handleAddAcid}>Add</button>
-                        <button className="btn btn-secondary" onClick={handleCancelEdit}>Cancel</button>
+                        <button className="btn btn-primary" onClick={handleAddBase}>Add</button>
+                        <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
                     </div>
                 </div>
             )}
@@ -251,8 +252,8 @@ const Acids = () => {
             {showDeleteModal && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h3>Confirm deletion of this acid?</h3>
-                        <h3>{acids.find(acid => acid.id === selectedForDelete)?.Compound}</h3>
+                        <h3>Confirm deletion of this base?</h3>
+                        <h3>{bases.find(base => base.id === selectedForDelete)?.Compound}</h3>
                         <button className="btn btn-primary" onClick={handleDelete}>OK</button>
                         <button className="btn btn-secondary" onClick={handleCancelDelete}>Cancel</button>
                     </div>
@@ -263,4 +264,4 @@ const Acids = () => {
     );
 };
 
-export default Acids;
+export default Bases;
