@@ -1,56 +1,56 @@
-.bases-container {
+.reactions-container-new {
     margin-top: 100px;
     padding: 20px;
     text-align: center;
     justify-content: center; 
-    margin-left: 150px;
+    margin-left: 130px;
     margin-right: 220px;
 }
 
-.header-row {
+.header-row-new {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-h2 {
+.reactions-title-new {
     font-family: 'Sixtyfour Convergence';
     margin-bottom: 20px;
     font-size: 35px;
 }
 
-.bases-grid {
+.reactions-grid-new {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
+    grid-template-columns: repeat(3, 1fr); 
     gap: 15px;  
     justify-items: center; 
 }
 
-.base-card {
-    background: linear-gradient(135deg, #f9e79f 0%, #f4d03f 100%);
+.reaction-card-new {
+    background: linear-gradient(135deg, #4dd0e1 0%, #26c6da 100%);
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.2s;
-    width: 150px;
+    width: 290px;
     cursor: pointer;
 }
 
-.base-card:hover {
+.reaction-card-new:hover {
     transform: scale(1.05);
 }
 
-.add-base {
-    background: linear-gradient(135deg, #b388ff 0%, #e1bee7 100%);
+.add-reaction-new {
+    background: linear-gradient(135deg, #98fb98 0%, #32cd32 100%);
     border: 1px solid #0a0a0a;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.2s;
-    width: 150px;
+    width: 290px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,16 +58,16 @@ h2 {
     font-weight: bolder;
 }
 
-.add-base:hover {
+.add-reaction-new:hover {
     transform: scale(1.05);
 }
 
-.action-buttons {
+.action-buttons-new {
     display: flex;
     gap: 10px;
 }
 
-.btn {
+.btn-new {
     padding: 10px 15px;
     border-radius: 5px;
     font-size: 16px;
@@ -75,63 +75,63 @@ h2 {
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 125px !important;
+    width: 120px;
 }
 
-.btn-danger {
-    background-color: red;
+.btn-danger-new {
+    background-color: #ff4500;
     color: white;
 }
 
-.btn-warning {
-    background-color: #ffc107;
+.btn-warning-new {
+    background-color: #ffdb58;
     color: black;
 }
 
-.selected-for-delete {
+.selected-for-delete-new {
     background-color: #ffcccc;
-    border-color: red;
+    border-color: #ff4500;
 }
 
-.highlight-for-delete {
-    border: 2px dashed red;
+.highlight-for-delete-new {
+    border: 2px dashed #ff4500;
     transition: all 0.2s ease;
 }
 
-.trash-icon {
+.trash-icon-new {
     font-size: 24px;
-    color: red;
+    color: #ff4500;
     align-items: center;
     margin-top: 20px;
 }
 
-.btn-primary {
-    background-color: #007bff;
+.btn-primary-new {
+    background-color: #1e90ff;
     color: white;
 }
 
-.btn-secondary {
-    background-color: #6c757d;
+.btn-secondary-new {
+    background-color: #a9a9a9;
     color: white;
 }
 
-.btn:hover {
+.btn-new:hover {
     opacity: 0.85;
 }
 
-.highlight-for-edit {
-    border: 2px dashed red;
+.highlight-for-edit-new {
+    border: 2px dashed #ff4500;
     transition: all 0.2s ease;
 }
 
-.selected-for-edit {
-    background-color: #ffcccc;
-    border-color: red;
+.selected-for-edit-new {
+    background-color: #fffacd;
+    border-color: #ffd700;
 }
 
-.pencil-icon {
+.pencil-icon-new {
     font-size: 24px;
-    color: red;
+    color: #ff8c00;
     align-items: center;
     margin-top: 20px;
 }
@@ -214,21 +214,21 @@ h2 {
     margin-right: 0;
 }
 
-.error-message {
+.error-message-new {
     color: red;
     font-size: 14px;
     margin-bottom: 10px;
 }
 
-.search-bar {
+.search-bar-new {
     margin-right: 10px;
 }
 
-.search-bar input {
+.search-bar-input-new {
     padding: 8px;
     font-size: 16px;
     border: 1px solid black;
     border-radius: 5px;
     width: 200px;
-    margin-left: 250px !important;
+    margin-left: 170px;
 }

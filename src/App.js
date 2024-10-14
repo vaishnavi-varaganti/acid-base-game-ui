@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Navbar from '../src/components/Navbar';
 import Header from './components/Header';
 import Login from './components/Login';
 import ForgotPassword from './components/ForgotPassword';
@@ -9,7 +8,7 @@ import Acids from '../src/components/Acids';
 import Users from '../src/components/Users';
 import Reports from '../src/components/Reports';
 import Bases from '../src/components/Bases';
-// import ReactionsList from './ReactionsList';
+import Reactions from '../src/components/Reactions';
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/bases" element={<Bases />} />
+        <Route path="/reactions" element={<Reactions />} />
       </Routes>
     </Router>
   );
