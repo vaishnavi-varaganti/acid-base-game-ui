@@ -30,6 +30,12 @@ const Reactions = () => {
             });
     }, []);
 
+    const formatReaction = (reaction) => {
+        return reaction
+            .replace(/([a-zA-Z])(\d+)/g, '$1<sub>$2</sub>') 
+            .replace(/\(([^)]+)\)(\d+)/g, '($1)<sub>$2</sub>'); 
+    };
+
     const handleDelete = () => {
         axios.delete(`https://api-generator.retool.com/JgRl9e/reactions/${selectedForDelete}`)
             .then(() => {
@@ -47,7 +53,6 @@ const Reactions = () => {
 
     const handleSelectForDelete = (reaction) => {
         setSelectedForDelete(reaction.id);
-        setShowDeleteModal(true); 
     };
 
     const handleEdit = (reaction) => {
@@ -200,7 +205,13 @@ const Reactions = () => {
               ${selectedForDelete === reaction.id && deleteMode ? 'selected-for-delete-new' : ''}
               ${selectedReaction === reaction.id && editMode ? 'selected-for-edit-new' : ''}`}
                         onClick={() => {
-                            if (deleteMode) handleSelectForDelete(reaction);
+                            if (deleteMode) {
+                                if (selectedForDelete === reaction.id) {
+                                    setShowDeleteModal(true); 
+                                } else {
+                                    handleSelectForDelete(reaction); 
+                                }
+                            }
                             if (editMode) handleEdit(reaction);
                         }}
                     >
@@ -210,8 +221,8 @@ const Reactions = () => {
                             <BsPencil className="pencil-icon-new" />
                         ) : (
                             <div>
-                                <h3>{reaction.Reaction}</h3>
-                                <p>{reaction.Answer}</p>
+                                <h3 dangerouslySetInnerHTML={{ __html: formatReaction(reaction.Reaction) }}></h3>
+                                <p dangerouslySetInnerHTML={{ __html: formatReaction(reaction.Answer) }}></p>
                             </div>
                         )}
                     </div>
@@ -270,7 +281,7 @@ const Reactions = () => {
                 <div className="modal">
                     <div className="modal-content">
                         <h3>Confirm deletion of this reaction?</h3>
-                        <h3>{reactions.find(reaction => reaction.id === selectedForDelete)?.Reaction}</h3>
+                        <h3 dangerouslySetInnerHTML={{ __html: formatReaction(reactions.find(reaction => reaction.id === selectedForDelete)?.Reaction) }}></h3>
                         <button className="btn btn-primary" onClick={handleDelete}>OK</button>
                         <button className="btn btn-secondary" onClick={handleCancelDelete}>Cancel</button>
                     </div>

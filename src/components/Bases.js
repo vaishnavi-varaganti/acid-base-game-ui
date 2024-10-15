@@ -31,6 +31,10 @@ const Bases = () => {
             });
     }, []);
 
+    const formatFormula = (compound) => {
+        return compound.replace(/(\d+)/g, '<sub>$1</sub>');
+    };
+
     const handleDelete = () => {
         axios.delete(`https://api-generator.retool.com/tnFVDY/acidsbases/${selectedForDelete}`)
             .then(() => {
@@ -208,7 +212,7 @@ const Bases = () => {
                         ) : selectedBase === base.id && editMode ? (
                             <BsPencil className="pencil-icon" />
                         ) : (
-                            <h3>{base.Compound}</h3>
+                            <h3 dangerouslySetInnerHTML={{ __html: formatFormula(base.Compound) }}></h3>
                         )}
                     </div>
                 ))}
@@ -253,7 +257,7 @@ const Bases = () => {
                 <div className="modal">
                     <div className="modal-content">
                         <h3>Confirm deletion of this base?</h3>
-                        <h3>{bases.find(base => base.id === selectedForDelete)?.Compound}</h3>
+                        <h3 dangerouslySetInnerHTML={{ __html: formatFormula(bases.find(base => base.id === selectedForDelete)?.Compound) }}></h3>
                         <button className="btn btn-primary" onClick={handleDelete}>OK</button>
                         <button className="btn btn-secondary" onClick={handleCancelDelete}>Cancel</button>
                     </div>

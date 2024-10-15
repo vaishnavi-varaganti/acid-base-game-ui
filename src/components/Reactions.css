@@ -79,30 +79,30 @@
 }
 
 .btn-danger-new {
-    background-color: #ff4500;
+    background-color: red;
     color: white;
 }
 
 .btn-warning-new {
-    background-color: #ffdb58;
+    background-color: #ffc107;
     color: black;
 }
 
 .selected-for-delete-new {
     background-color: #ffcccc;
-    border-color: #ff4500;
+    border-color: red;
 }
 
 .highlight-for-delete-new {
-    border: 2px dashed #ff4500;
+    border: 2px dashed red;
     transition: all 0.2s ease;
 }
 
 .trash-icon-new {
     font-size: 24px;
-    color: #ff4500;
+    color: red;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .btn-primary-new {
@@ -120,20 +120,20 @@
 }
 
 .highlight-for-edit-new {
-    border: 2px dashed #ff4500;
+    border: 2px dashed red;
     transition: all 0.2s ease;
 }
 
 .selected-for-edit-new {
-    background-color: #fffacd;
-    border-color: #ffd700;
+    background-color: red;
+    border-color: red;
 }
 
 .pencil-icon-new {
     font-size: 24px;
-    color: #ff8c00;
+    color: red;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .modal {
