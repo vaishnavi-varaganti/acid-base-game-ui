@@ -12,6 +12,12 @@ const Header = () => {
         navigate('/dashboard');
     }
     
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');  
+        localStorage.removeItem('userEmail');  
+        navigate('/');  
+      };
+
     return (
         <header className="header">
             <div className="header-left">
@@ -22,7 +28,7 @@ const Header = () => {
             </div>
             <div className="header-right">
                 {location.pathname !== '/' && (
-                    <Link to="/" className="header-link">
+                    <Link to="/" className="header-link" onClick={handleLogout}>
                         <i className="bi bi-box-arrow-right"></i>
                     </Link>
                 )}
