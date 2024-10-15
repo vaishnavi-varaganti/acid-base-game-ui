@@ -2,14 +2,14 @@
     padding: 20px;
     margin: 20px auto;
     max-width: 1000px;
-    margin-top: 80px;
+    margin-top: 65px;
   }
   
   .reports-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
   
   .search-download input {
