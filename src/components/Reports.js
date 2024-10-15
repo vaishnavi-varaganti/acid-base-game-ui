@@ -12,7 +12,7 @@ const Reports = () => {
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://api-generator.retool.com/R5pZpT/gamedetails?_page=${page}&_limit=10`
+        `https://api-generator.retool.com/R5pZpT/gamedetails?_page=${page}&_limit=5`
       );
       const totalCount = response.headers['x-total-count'];
       setTotalPages(Math.ceil(totalCount / 10));
