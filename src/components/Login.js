@@ -45,6 +45,8 @@ const Login = () => {
       const decryptedPassword = decryptStringFromBytes(user[0].Password);
       if (decryptedPassword.trim() === password.trim()) {
         toast.success('Login successful!');
+        localStorage.setItem('isAuthenticated', 'true');  
+        localStorage.setItem('userEmail', email); 
         setTimeout(() => {
           navigate('/dashboard');
         }, 1000); 
