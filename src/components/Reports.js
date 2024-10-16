@@ -1,38 +1,51 @@
-import React, { useState, useEffect, useCallback  } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import './Reports.css';
 
 const Reports = () => {
-  const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]); // To store all data
+  const [displayData, setDisplayData] = useState([]); // To display data for the current page
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const recordsPerPage = 5; // Define how many records per page
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `https://api-generator.retool.com/R5pZpT/gamedetails?_page=${page}&_limit=5`
-      );
-      const totalCount = response.headers['x-total-count'];
-      setTotalPages(Math.ceil(totalCount / 10));
-      setData(response.data);
+      const response = await axios.get('https://api-generator.retool.com/R5pZpT/gamedetails');
+      setAllData(response.data);
+      setTotalPages(Math.ceil(response.data.length / recordsPerPage));
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    const filteredData = allData
+      .filter(
+        item =>
+          item.SID.toLowerCase().includes(search.toLowerCase()) ||
+          item.Firstname.toLowerCase().includes(search.toLowerCase()) ||
+          item.Lastname.toLowerCase().includes(search.toLowerCase())
+      );
+    setTotalPages(Math.ceil(filteredData.length / recordsPerPage));
+    const startIndex = (page - 1) * recordsPerPage;
+    const paginatedData = filteredData.slice(startIndex, startIndex + recordsPerPage);
+    setDisplayData(paginatedData);
+  }, [allData, page, search]);
+
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-    setPage(1);
+    setPage(1); // Reset to the first page when searching
   };
 
   const downloadReport = () => {
-    const formattedData = data.map(item => [
+    const formattedData = allData.map(item => [
       item.SID,
       item.Firstname,
       item.Lastname,
@@ -79,30 +92,23 @@ const Reports = () => {
           </tr>
         </thead>
         <tbody>
-          {data
-            .filter(
-              item =>
-                item.SID.toLowerCase().includes(search.toLowerCase()) ||
-                item.Firstname.toLowerCase().includes(search.toLowerCase()) ||
-                item.Lastname.toLowerCase().includes(search.toLowerCase())
-            )
-            .map((item, index) => (
-              <tr key={index}>
-                <td>{item.SID}</td>
-                <td>{item.Firstname}</td>
-                <td>{item.Lastname}</td>
-                <td>{item.Level_1_Score}</td>
-                <td>{item.Level_2_Score}</td>
-                <td>{item.Level_3_Score}</td>
-                <td>{item.Level_4_Score}</td>
-                <td>
-                  {parseInt(item.Level_1_Score) +
-                    parseInt(item.Level_2_Score) +
-                    parseInt(item.Level_3_Score) +
-                    parseInt(item.Level_4_Score)}
-                </td>
-              </tr>
-            ))}
+          {displayData.map((item, index) => (
+            <tr key={index}>
+              <td>{item.SID}</td>
+              <td>{item.Firstname}</td>
+              <td>{item.Lastname}</td>
+              <td>{item.Level_1_Score}</td>
+              <td>{item.Level_2_Score}</td>
+              <td>{item.Level_3_Score}</td>
+              <td>{item.Level_4_Score}</td>
+              <td>
+                {parseInt(item.Level_1_Score) +
+                  parseInt(item.Level_2_Score) +
+                  parseInt(item.Level_3_Score) +
+                  parseInt(item.Level_4_Score)}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
