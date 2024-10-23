@@ -81,3 +81,47 @@
     background-color: #f88b85;
     cursor: not-allowed;
   }
+
+.reports-page.blur-background {
+  filter: blur(5px); 
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 2px solid #f88b85;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  filter: none; 
+}
+
+.popup-content {
+  text-align: left;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  color: #f85950;
+}
+
+.popup-content p {
+  margin: 10px 0;
+}
+
+.popup-content button {
+  padding: 10px 15px;
+  background-color: #f88b85;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #f85950;
+}
