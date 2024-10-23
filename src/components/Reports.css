@@ -61,14 +61,14 @@
     background-color: #fae0df;
   }
   
-  .pagination {
+  .pagination-reports {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
   }
   
-  .pagination button {
+  .pagination-reports button {
     padding: 8px 12px;
     background-color: #f85950;
     color: black;
@@ -77,7 +77,7 @@
     cursor: pointer;
   }
   
-  .pagination button:disabled {
+  .pagination-reports button:disabled {
     background-color: #f88b85;
     cursor: not-allowed;
   }

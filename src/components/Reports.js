@@ -112,7 +112,7 @@ const Reports = () => {
         </tbody>
       </table>
 
-      <div className="pagination">
+      <div className="pagination-reports">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           Previous
         </button>
