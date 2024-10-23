@@ -17,15 +17,26 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [email, setEmail] = useState('');
   const [storedPassword, setStoredPassword] = useState('');
+  const [page, setPage] = useState(1);
+  const recordsPerPage = 5;
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    const filteredUsers = users.filter((user) =>
+      user.Email.toLowerCase().includes(search.toLowerCase())
+    );
+    setTotalPages(Math.ceil(filteredUsers.length / recordsPerPage));
+  }, [users, search]);
+
   const fetchUsers = async () => {
     try {
       const response = await axios.get('https://api-generator.retool.com/ocWM6W/usercredentials');
       setUsers(response.data);
+      setTotalPages(Math.ceil(response.data.length / recordsPerPage));
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -75,7 +86,6 @@ const Users = () => {
   };
 
   const encryptStringToBytesAES = (plainText) => {
-
     const key = process.env.REACT_APP_CIPHER_KEY;
 
     if (!plainText || plainText.length <= 0) {
@@ -150,21 +160,27 @@ const Users = () => {
     frame();
   };
 
-  const handleEditUser = async () => {
-    try {
-      await axios.put(`https://api-generator.retool.com/ocWM6W/usercredentials/${selectedUser.id}`, {
-        Email: email,
-        Password: storedPassword,
-      });
-      toast.success('User updated successfully');
-      setIsEditModalOpen(false);
-      fetchUsers();
-    } catch (error) {
-      toast.error('Error updating user');
-      console.error('Error updating user:', error);
-    }
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
   };
 
+  const paginatedUsers = users
+    .filter((user) => user.Email.toLowerCase().includes(search.toLowerCase()))
+    .slice((page - 1) * recordsPerPage, page * recordsPerPage);
+
+    const handleEditUser = async () => {
+      try {
+        await axios.put(`https://api-generator.retool.com/ocWM6W/usercredentials/${selectedUser.id}`, {
+          Email: email,
+          Password: storedPassword,
+        });
+        toast.success('User updated successfully');
+        setIsEditModalOpen(false);
+        fetchUsers();
+      } catch (error) {
+        toast.error('Error updating user');
+        console.error('Error updating user:', error);
+      }}; 
   return (
     <div className="users-page">
       <div className="users-header">
@@ -174,7 +190,10 @@ const Users = () => {
             type="text"
             placeholder="Search by email"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
           />
           <button onClick={() => setIsModalOpen(true)}>+ Add User</button>
         </div>
@@ -188,26 +207,36 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {users
-            .filter((user) => user.Email.toLowerCase().includes(search.toLowerCase()))
-            .map((user, index) => (
-              <tr key={user.id}>
-                <td>{index + 1}</td>
-                <td>{user.Email}</td>
-                <td>
-                  <FaEdit
-                    className="action-icon edit-icon"
-                    onClick={() => handleEdit(user)}
-                  />
-                  <FaTrash
-                    className="action-icon delete-icon"
-                    onClick={() => confirmDelete(user)}
-                  />
-                </td>
-              </tr>
-            ))}
+          {paginatedUsers.map((user, index) => (
+            <tr key={user.id}>
+              <td>{(page - 1) * recordsPerPage + index + 1}</td>
+              <td>{user.Email}</td>
+              <td>
+                <FaEdit className="action-icon edit-icon" onClick={() => handleEdit(user)} />
+                <FaTrash className="action-icon delete-icon" onClick={() => confirmDelete(user)} />
+              </td>
+            </tr>
+          ))}
         </tbody>
-      </table>
+    </table>
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages}
+        >
+          Next
+        </button>
+      </div>
+
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
