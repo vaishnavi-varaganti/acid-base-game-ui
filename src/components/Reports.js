@@ -4,12 +4,12 @@ import * as XLSX from 'xlsx';
 import './Reports.css';
 
 const Reports = () => {
-  const [allData, setAllData] = useState([]); // To store all data
-  const [displayData, setDisplayData] = useState([]); // To display data for the current page
+  const [allData, setAllData] = useState([]); 
+  const [displayData, setDisplayData] = useState([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const recordsPerPage = 5; // Define how many records per page
+  const recordsPerPage = 5;
 
   const fetchData = useCallback(async () => {
     try {
