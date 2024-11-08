@@ -272,7 +272,7 @@ const Reactions = () => {
                         />
                         {errorMessage && <p className="error-message-new">{errorMessage}</p>}
                         <button className="btn btn-primary" onClick={handleAddReaction}>Add</button>
-                        <button className="btn btn-secondary" onClick={handleCancelEdit}>Cancel</button>
+                        <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
                     </div>
                 </div>
             )}

@@ -230,7 +230,7 @@ const Acids = () => {
                             onChange={(e) => setAcidToEdit(e.target.value)}
                         />
                         <button className="btn btn-primary" onClick={handleUpdateAcid}>Update</button>
-                        <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                        <button className="btn btn-secondary" onClick={handleCancelEdit}>Cancel</button>
                     </div>
                 </div>
             )}
@@ -247,7 +247,7 @@ const Acids = () => {
                         />
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <button className="btn btn-primary" onClick={handleAddAcid}>Add</button>
-                        <button className="btn btn-secondary" onClick={handleCancelEdit}>Cancel</button>
+                        <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
                     </div>
                 </div>
             )}
