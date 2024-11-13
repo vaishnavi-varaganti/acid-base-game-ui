@@ -43,7 +43,7 @@ h2 {
 }
 
 .add-neither {
-    background: linear-gradient(135deg, #f06292 0%, #e57373 100%);
+    background: linear-gradient(135deg, #8ee1ec 0%, #20a8b9 100%);
     border: 1px solid #0a0a0a;
     padding: 10px;
     border-radius: 10px;
@@ -65,7 +65,7 @@ h2 {
 .action-buttons-neither {
     display: flex;
     gap: 10px;
-    margin-left: 410px;
+    margin-left: 10px;
 }
 
 .btn {
@@ -222,11 +222,10 @@ h2 {
 }
 
 .search-bar-neither {
-    position: fixed;
+    /* position: fixed;
     top: 143px;
-    right: 440px;
-    margin-right: 10px;
-    margin-left: 0px;
+    right: 440px; */
+    margin-left: 180px;
     width: 200;
 }
 
