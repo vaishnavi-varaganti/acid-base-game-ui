@@ -10,6 +10,7 @@ import Reports from './components/Reports';
 import Bases from './components/Bases';
 import Reactions from './components/Reactions';
 import ProtectedRoute from './components/ProtectedRoute';
+import Neither from './components/Neither';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/reports" element={<ProtectedRoute element={<Reports />} />} />
         <Route path="/bases" element={<ProtectedRoute element={<Bases />} />} />
         <Route path="/reactions" element={<ProtectedRoute element={<Reactions />} />} />
+        <Route path="/neither" element={<ProtectedRoute element={<Neither />} />} />
       </Routes>
     </Router>
   );
