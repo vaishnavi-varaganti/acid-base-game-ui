@@ -33,7 +33,7 @@ const Reports = () => {
           item.SID.toLowerCase().includes(search.toLowerCase()) ||
           item.Firstname.toLowerCase().includes(search.toLowerCase()) ||
           item.Lastname.toLowerCase().includes(search.toLowerCase())
-      );
+      ).sort((a, b) => a.Lastname.localeCompare(b.Lastname));
     setTotalPages(Math.ceil(filteredData.length / recordsPerPage));
     const startIndex = (page - 1) * recordsPerPage;
     const paginatedData = filteredData.slice(startIndex, startIndex + recordsPerPage);
@@ -46,7 +46,8 @@ const Reports = () => {
   };
 
   const downloadReport = () => {
-    const formattedData = allData.map(item => [
+    const sortedData = [...allData].sort((a, b) => a.Lastname.localeCompare(b.Lastname));
+    const formattedData = sortedData.map(item => [
       item.SID,
       item.Firstname,
       item.Lastname,
