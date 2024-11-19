@@ -29,20 +29,42 @@ const Reactions = () => {
                 console.error('Error fetching reactions:', error);
             });
     }, []);
-
+          
     const formatReaction = (reaction) => {
+        // Subscript and superscript mappings
+        const subscriptMap = { 0: '₀', 1: '₁', 2: '₂', 3: '₃', 4: '₄', 5: '₅', 6: '₆', 7: '₇', 8: '₈', 9: '₉' };
+        const superscriptMap = { '+': '⁺', '-': '⁻' };
+    
         return reaction
-            .replace(/([a-zA-Z])(\d+)/g, '$1<sub>$2</sub>') 
-            .replace(/\(([^)]+)\)(\d+)/g, '($1)<sub>$2</sub>'); 
-    };
+            // Convert numbers to subscript only if after letters (e.g., CH3 -> CH₃) or `)`
+            .replace(/([a-zA-Z\)])(\d+)/g, (_, char, number) => {
+                const subscript = number.split('').map((digit) => subscriptMap[digit] || digit).join('');
+                return char + subscript;
+            })
+            // Convert `+` to superscript if after a letter, digit, or subscript
+            .replace(/([a-zA-Z0-9₀₁₂₃₄₅₆₇₈₉])(\+)/g, (_, char) => char + superscriptMap['+'])
+            // Convert `-` to superscript only if not followed by a letter (e.g., for I- or OH- but not CH3-NH2)
+            .replace(/([a-zA-Z0-9₀₁₂₃₄₅₆₇₈₉])(\-)(?![a-zA-Z])/g, (_, char) => char + superscriptMap['-'])
+            // Ensure `-` in cases like CH3-NH2 remains normal
+            .replace(/([a-zA-Z0-9])-(\w)/g, (_, before, after) => before + '-' + after)
+            // Ensure `+` and `-` after `)` are normal
+            .replace(/\)( ?\+)/g, ') +')
+            .replace(/\)( ?\-)/g, ') -')
+            // Add space before `(` and after `)` if needed
+            .replace(/(\w)\(/g, '$1 (')
+            .replace(/\)([a-zA-Z])/g, ') $1')
+            // Normalize spaces
+            .replace(/\s+/g, ' ')
+            .trim(); // Trim leading or trailing whitespace
+    };    
 
     const handleDelete = () => {
         axios.delete(`https://api-generator.retool.com/JgRl9e/reactions/${selectedForDelete}`)
             .then(() => {
                 setReactions(reactions.filter(reaction => reaction.id !== selectedForDelete));
                 setSelectedForDelete(null);
-                setShowDeleteModal(false); 
-                setDeleteMode(false); 
+                setShowDeleteModal(false);
+                setDeleteMode(false);
                 toast.success('Reaction deleted successfully!');
             })
             .catch(error => {
@@ -67,13 +89,13 @@ const Reactions = () => {
     const handleUpdateReaction = () => {
         const updatedReaction = {
             Type: 'Compound',
-            Reaction: reactionToEdit.Reaction,
-            Answer: reactionToEdit.Answer
+            Reaction: formatReaction(reactionToEdit.Reaction), // Format before updating
+            Answer: formatReaction(reactionToEdit.Answer) // Format before updating
         };
 
         axios.put(`https://api-generator.retool.com/JgRl9e/reactions/${selectedReaction}`, updatedReaction)
             .then(() => {
-                setReactions(reactions.map(reaction => reaction.id === selectedReaction ? { ...reaction, ...reactionToEdit } : reaction));
+                setReactions(reactions.map(reaction => reaction.id === selectedReaction ? { ...reaction, ...updatedReaction } : reaction));
                 setShowModal(false);
                 setSelectedReaction(null);
                 setEditMode(false);
@@ -96,8 +118,8 @@ const Reactions = () => {
 
         const newReactionData = {
             Type: 'Compound',
-            Reaction: newReaction.Reaction,
-            Answer: newReaction.Answer
+            Reaction: formatReaction(newReaction.Reaction), // Format before adding
+            Answer: formatReaction(newReaction.Answer) // Format before adding
         };
 
         axios.post('https://api-generator.retool.com/JgRl9e/reactions', newReactionData)
@@ -116,22 +138,22 @@ const Reactions = () => {
     };
 
     const triggerConfetti = () => {
-        const duration = 1 * 1000; 
+        const duration = 1 * 1000;
         const end = Date.now() + duration;
-        const vibrantColors = ['#FF6347', '#FF4500', '#FFD700', '#ADFF2F', '#00CED1', '#1E90FF', '#9932CC', '#FF69B4']; 
+        const vibrantColors = ['#FF6347', '#FF4500', '#FFD700', '#ADFF2F', '#00CED1', '#1E90FF', '#9932CC', '#FF69B4'];
         const frame = () => {
             confetti({
-                particleCount: 7, 
+                particleCount: 7,
                 startVelocity: 30,
-                spread: 360, 
+                spread: 360,
                 ticks: 200,
                 origin: {
-                    x: Math.random(), 
-                    y: Math.random() * 0.2 
+                    x: Math.random(),
+                    y: Math.random() * 0.2
                 },
-                gravity: 0.7, 
-                scalar: 1.2, 
-                colors: vibrantColors 
+                gravity: 0.7,
+                scalar: 1.2,
+                colors: vibrantColors
             });
             if (Date.now() < end) {
                 requestAnimationFrame(frame);
@@ -141,15 +163,15 @@ const Reactions = () => {
     };
 
     const handleCancelDelete = () => {
-        setShowDeleteModal(false); 
-        setSelectedForDelete(null); 
+        setShowDeleteModal(false);
+        setSelectedForDelete(null);
         setDeleteMode(false);
     };
 
     const handleCancelEdit = () => {
         setShowModal(false);
         setSelectedReaction(null);
-        setEditMode(false); 
+        setEditMode(false);
     };
 
     const filteredReactions = reactions.filter(reaction =>
@@ -207,9 +229,9 @@ const Reactions = () => {
                         onClick={() => {
                             if (deleteMode) {
                                 if (selectedForDelete === reaction.id) {
-                                    setShowDeleteModal(true); 
+                                    setShowDeleteModal(true);
                                 } else {
-                                    handleSelectForDelete(reaction); 
+                                    handleSelectForDelete(reaction);
                                 }
                             }
                             if (editMode) handleEdit(reaction);
