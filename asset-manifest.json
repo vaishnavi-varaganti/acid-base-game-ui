@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.f7d713a1.css",
-    "main.js": "/static/js/main.bd5fb8d5.js",
-    "static/js/453.e41e1834.chunk.js": "/static/js/453.e41e1834.chunk.js",
-    "static/media/reaction.png": "/static/media/reaction.c073abde30760defef32.png",
-    "static/media/acid.png": "/static/media/acid.bd57bc46c6a5c0cefc62.png",
-    "static/media/base.png": "/static/media/base.e7bffd274d5a469ec9f1.png",
-    "static/media/neither.png": "/static/media/neither.236942bbeba16cee2ab2.png",
-    "static/media/logo.png": "/static/media/logo.ab155648070538365c54.png",
-    "index.html": "/index.html",
-    "main.f7d713a1.css.map": "/static/css/main.f7d713a1.css.map",
-    "main.bd5fb8d5.js.map": "/static/js/main.bd5fb8d5.js.map",
-    "453.e41e1834.chunk.js.map": "/static/js/453.e41e1834.chunk.js.map"
+    "main.css": "/acid-base-game-ui/static/css/main.f7d713a1.css",
+    "main.js": "/acid-base-game-ui/static/js/main.3a4bed78.js",
+    "static/js/453.e41e1834.chunk.js": "/acid-base-game-ui/static/js/453.e41e1834.chunk.js",
+    "static/media/reaction.png": "/acid-base-game-ui/static/media/reaction.c073abde30760defef32.png",
+    "static/media/acid.png": "/acid-base-game-ui/static/media/acid.bd57bc46c6a5c0cefc62.png",
+    "static/media/base.png": "/acid-base-game-ui/static/media/base.e7bffd274d5a469ec9f1.png",
+    "static/media/neither.png": "/acid-base-game-ui/static/media/neither.236942bbeba16cee2ab2.png",
+    "static/media/logo.png": "/acid-base-game-ui/static/media/logo.ab155648070538365c54.png",
+    "index.html": "/acid-base-game-ui/index.html",
+    "main.f7d713a1.css.map": "/acid-base-game-ui/static/css/main.f7d713a1.css.map",
+    "main.3a4bed78.js.map": "/acid-base-game-ui/static/js/main.3a4bed78.js.map",
+    "453.e41e1834.chunk.js.map": "/acid-base-game-ui/static/js/453.e41e1834.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f7d713a1.css",
-    "static/js/main.bd5fb8d5.js"
+    "static/js/main.3a4bed78.js"
   ]
 }
